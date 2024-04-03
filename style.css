@@ -62,3 +62,11 @@ body {
 /* #prev {
     left: 500px;
 } */
+
+#circleContainer>.circle.circleActive {
+    background-color: red;
+}
+
+#circleContainer>.circle.circleHide {
+    background-color: yellow;
+}
