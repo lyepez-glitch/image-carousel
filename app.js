@@ -1,6 +1,6 @@
 let slideInterval;
 ///////////start functions//////////////////////
-
+let count = 0;
 /////////////slides functions/////////////////////////
 const hideSlides = (slides) => { //hide all slides
     slides.forEach((slide) => {
@@ -59,19 +59,31 @@ const hideActiveCircle = () => { //hide active slide
 
     })
 }
-const clickCircle = () => {
-        const slide = document.querySelector("#img" + i);
+const clickCircle = (circle) => {
+        clearInterval(slideInterval);
         const slides = document.querySelectorAll(".image");
-        const circles = document.querySelectorAll(".circle");
-        // clearSlides(slides);
-        // clearCircles(circles)
 
-        circle.classList.add("circleColor");
+        let circleIndex = parseInt(circle.id.split("").pop());
+
+
+        slides.forEach((slide) => {
+            const slideIndex = parseInt(slide.id.split("").pop());
+            if (slideIndex === circleIndex) {
+                count = slideIndex;
+                hideActiveCircle();
+                showCircle(circle);
+                hideActiveSlide();
+                showSlide(slide);
+            }
+        })
+
+        startInterval();
+
     }
     //////end circles functions/////////
 
 function startInterval() { //slide mode
-    let count = 0;
+    // let count = 0;
     slideInterval = setInterval(function() {
         if (count >= 5) {
             count = 1;
@@ -106,6 +118,7 @@ function next() {
         }
 
         const nextSlide = document.querySelector("#img" + nextIndex);
+        count = nextIndex;
         console.log("nextSlide ", nextSlide)
         if (nextSlide) {
             hideActiveSlide();
@@ -116,7 +129,8 @@ function next() {
         }
 
     }
-    // startInterval()
+
+    startInterval()
 
 }
 
@@ -137,6 +151,7 @@ function prev() {
         }
 
         const prevSlide = document.querySelector("#img" + prevIndex);
+        count = prevIndex;
         console.log("nextSlide ", prevSlide)
         if (prevSlide) {
             hideActiveSlide();
@@ -147,7 +162,7 @@ function prev() {
         }
 
     }
-    // startInterval()
+    startInterval()
 
 }
 
@@ -175,7 +190,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     for (let i = 1; i < 6; i++) {
 
         const circle = document.querySelector("#circle" + i);
-        circle.addEventListener("click", (event) => { clickCircle(); })
+        circle.addEventListener("click", (event) => { clickCircle(circle); })
     }
     const nextBtn = document.querySelector("#next");
     nextBtn.addEventListener("click", function() { next() });
